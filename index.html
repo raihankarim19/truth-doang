@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Truth Doang</title>
+<meta name="theme-color" content="#FFD23F" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#231946" media="(prefers-color-scheme: dark)">
+<meta name="description" content="1000 pertanyaan truth buat tongkrongan. Putar botolnya, jawab jujur.">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" sizes="192x192">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<style>
+@font-face{font-family:"Poppins App";src:url("fonts/poppins-regular.woff2") format("woff2");font-weight:400 500;font-style:normal;font-display:swap}
+@font-face{font-family:"Poppins App";src:url("fonts/poppins-bold.woff2") format("woff2");font-weight:600 900;font-style:normal;font-display:swap}
+</style>
+<style>
+:root{
+  --bg:#FFD23F; --ink:#2A1B4F; --paper:#FFFBEF; --bottle:#17804F; --bottle-hi:#6FE0A6; --pop:#FF4F81; --soft:rgba(42,27,79,.62);
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){ :root:not([data-theme="light"]){
+  --bg:#231946; --ink:#FFF1C9; --paper:#33275F; --bottle:#2FB872; --bottle-hi:#A6F5CB; --pop:#FF7AA0; --soft:rgba(255,241,201,.66); color-scheme:dark;
+}}
+:root[data-theme="dark"]{--bg:#231946; --ink:#FFF1C9; --paper:#33275F; --bottle:#2FB872; --bottle-hi:#A6F5CB; --pop:#FF7AA0; --soft:rgba(255,241,201,.66); color-scheme:dark;}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Poppins App",ui-rounded,system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.45;-webkit-tap-highlight-color:transparent}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--pop);outline-offset:3px}
+.wrap{max-width:460px;margin:0 auto;padding:18px 20px 40px;display:flex;flex-direction:column;gap:18px;min-height:100%}
+header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+h1{margin:0;font-weight:800;font-size:clamp(2.1rem,9vw,2.8rem);line-height:.92;letter-spacing:-.03em}
+h1 small{display:block;font-size:.95rem;font-weight:600;letter-spacing:0;margin-top:8px;color:var(--soft)}
+.icon-btn{border:2.5px solid var(--ink);background:var(--paper);border-radius:14px;width:46px;height:46px;display:grid;place-items:center;font-size:1.2rem;box-shadow:3px 3px 0 var(--ink);flex:none}
+.icon-btn:active{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
+.arena{position:relative;width:min(78vw,300px);aspect-ratio:1;margin:6px auto 0;border-radius:50%;
+  background:repeating-conic-gradient(from 0deg, color-mix(in srgb,var(--ink) 9%,transparent) 0 10deg, transparent 10deg 20deg);
+  border:3px dashed color-mix(in srgb,var(--ink) 45%,transparent)}
+.bottle-btn{position:absolute;inset:0;margin:auto;width:38%;height:88%;border:0;background:none;padding:0;border-radius:40px}
+.bottle{width:100%;height:100%;transform-origin:50% 50%;will-change:transform}
+.spinning .bottle{transition:transform 2.6s cubic-bezier(.13,.72,.18,1)}
+.seat{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);background:var(--paper);border:2px solid var(--ink);border-radius:999px;padding:3px 10px;font-size:.82rem;font-weight:600;white-space:nowrap;max-width:96px;overflow:hidden;text-overflow:ellipsis;transition:background .2s,color .2s}
+.seat.hit{background:var(--pop);color:#fff;border-color:var(--pop)}
+.hint{text-align:center;color:var(--soft);font-size:.95rem;margin:-4px 0 0}
+.card{background:var(--paper);border:3px solid var(--ink);border-radius:22px;box-shadow:6px 6px 0 var(--ink);padding:20px 20px 22px;min-height:190px;display:flex;flex-direction:column;gap:12px}
+.card.fresh{animation:pop .45s cubic-bezier(.2,1.4,.4,1)}
+@keyframes pop{from{transform:scale(.92) rotate(-1.5deg);opacity:.2}to{transform:none;opacity:1}}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:8px;font-size:.88rem;font-weight:600}
+.chip{background:var(--bg);border:2px solid var(--ink);border-radius:999px;padding:2px 10px}
+.num{color:var(--soft)}
+.q{font-size:clamp(1.35rem,5.6vw,1.65rem);font-weight:800;line-height:1.2;letter-spacing:-.01em;margin:0}
+.who{font-weight:600;color:var(--pop);margin:0}
+.empty .q{font-weight:600;font-size:1.2rem}
+.primary{border:3px solid var(--ink);background:var(--pop);color:#fff;border-radius:999px;padding:15px 22px;font-weight:800;font-size:1.15rem;box-shadow:5px 5px 0 var(--ink)}
+.primary:active{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--ink)}
+.primary[disabled]{opacity:.7}
+.row{display:flex;gap:10px}
+.ghost{flex:1;border:2.5px solid var(--ink);background:transparent;border-radius:999px;padding:11px 14px;font-weight:600}
+.count{text-align:center;font-size:.9rem;color:var(--soft);margin:0}
+dialog{border:3px solid var(--ink);border-radius:24px;background:var(--paper);color:var(--ink);padding:0;width:min(94vw,460px);max-height:86vh;box-shadow:8px 8px 0 var(--ink)}
+dialog::backdrop{background:rgba(20,10,40,.55)}
+.sheet{padding:20px;display:flex;flex-direction:column;gap:16px;max-height:86vh}
+.sheet h2{margin:0;font-size:1.5rem;font-weight:800;letter-spacing:-.02em}
+.sheet-head{display:flex;justify-content:space-between;align-items:center}
+.close{border:0;background:none;font-size:1.6rem;line-height:1;padding:4px 8px}
+.cats{display:flex;flex-wrap:wrap;gap:8px}
+.cat{border:2px solid var(--ink);border-radius:999px;padding:7px 12px;background:transparent;font-weight:600;font-size:.95rem}
+.cat[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
+.cat .n{opacity:.65;font-weight:400}
+label{font-weight:600;display:block;margin-bottom:6px}
+.help{font-size:.88rem;color:var(--soft);margin:6px 0 0}
+textarea,input[type=search]{width:100%;font:inherit;color:var(--ink);background:var(--bg);border:2.5px solid var(--ink);border-radius:14px;padding:10px 12px}
+textarea{min-height:110px;resize:vertical}
+.list{overflow:auto;margin:0;padding:0;list-style:none;flex:1;min-height:0;border-top:2px solid color-mix(in srgb,var(--ink) 20%,transparent)}
+.list li{padding:11px 2px;border-bottom:1px solid color-mix(in srgb,var(--ink) 14%,transparent);display:grid;grid-template-columns:3.2em 1fr;gap:6px;font-size:.98rem}
+.list li span{color:var(--soft);font-variant-numeric:tabular-nums}
+.list li.seen{opacity:.5}
+.link{border:0;background:none;text-decoration:underline;text-underline-offset:3px;font-weight:600;padding:6px;align-self:center}
+@media (prefers-reduced-motion:reduce){.spinning .bottle{transition:none}.card.fresh{animation:none}}
+
+.tools{display:flex;gap:8px}
+.meta-right{display:flex;align-items:center;gap:8px}
+.star{border:0;background:none;font-size:1.35rem;line-height:1;padding:0 2px;color:var(--pop)}
+.switch{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:600}
+.steps{margin:0;padding-left:1.1em;display:flex;flex-direction:column;gap:9px}
+.steps li{padding-left:2px}
+.tally{list-style:none;margin:8px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.tally li{background:var(--bg);border:2px solid var(--ink);border-radius:999px;padding:4px 12px;font-weight:600;font-size:.92rem;display:flex;gap:6px}
+.tally span{color:var(--soft)}
+.ghost:active{transform:translateY(1px)}
+.ghost[disabled]{opacity:.45}
+#openHelp{font-weight:800}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Truth doang.<small>1000 pertanyaan jujur-jujuran buat tongkrongan</small></h1>
+    <div class="tools">
+      <button class="icon-btn" id="openHelp" aria-label="Cara main">?</button>
+      <button class="icon-btn" id="openSet" aria-label="Atur pemain dan kategori">⚙️</button>
+    </div>
+  </header>
+
+  <div class="arena" id="arena">
+    <button class="bottle-btn" id="bottleBtn" aria-label="Putar botol">
+      <svg class="bottle" id="bottle" viewBox="0 0 60 160" aria-hidden="true">
+        <rect x="23" y="4" width="14" height="10" rx="3" fill="var(--pop)" stroke="var(--ink)" stroke-width="3"/>
+        <path d="M24 14 h12 v22 c0 8 16 16 16 34 v74 c0 7-5 12-12 12 H20 c-7 0-12-5-12-12 V70 c0-18 16-26 16-34z" fill="var(--bottle)" stroke="var(--ink)" stroke-width="3.5" stroke-linejoin="round"/>
+        <rect x="8" y="88" width="44" height="34" fill="var(--paper)" stroke="var(--ink)" stroke-width="3"/>
+        <text x="30" y="110" text-anchor="middle" font-size="13" font-weight="800" fill="var(--ink)" font-family="Poppins App, sans-serif">T</text>
+        <path d="M15 76 q3-10 11-16" stroke="var(--bottle-hi)" stroke-width="4" fill="none" stroke-linecap="round"/>
+        <path d="M14 130 v10" stroke="var(--bottle-hi)" stroke-width="4" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+  <p class="hint" id="hint">Tap botolnya. Tutup botol nunjuk siapa yang jawab.</p>
+
+  <section class="card" id="card" aria-live="polite">
+    <div class="meta">
+      <span class="chip" id="chip">🎲 Siap?</span>
+      <span class="meta-right"><span class="num" id="num"></span>
+      <button class="star" id="star" aria-label="Simpan pertanyaan" hidden>☆</button></span>
+    </div>
+    <p class="who" id="who" hidden></p>
+    <p class="q" id="q">Duduk melingkar, taruh HP di tengah, siapin mental soal mantan.</p>
+  </section>
+
+  <button class="primary" id="spin">Putar botol</button>
+  <div class="row">
+    <button class="ghost" id="skip" disabled>Ganti pertanyaan</button>
+    <button class="ghost" id="openList">Semua pertanyaan</button>
+  </div>
+  <p class="count" id="count"></p>
+</div>
+
+<dialog id="helpDlg" aria-labelledby="helpTitle">
+  <div class="sheet">
+    <div class="sheet-head"><h2 id="helpTitle">Cara main</h2><button class="close" data-close aria-label="Tutup">×</button></div>
+    <ol class="steps">
+      <li>Duduk melingkar, taruh HP di tengah. Isi nama pemain di ⚙️ supaya botolnya nunjuk orang.</li>
+      <li>Tap botol. Botol muter, berhenti di satu orang, terus satu pertanyaan keluar.</li>
+      <li>Yang ditunjuk wajib jawab jujur. Boleh nolak satu kali per orang, konsekuensinya terserah kesepakatan meja.</li>
+      <li>Kalau pertanyaannya kelewat pribadi, tekan Ganti pertanyaan. Tiap pertanyaan cuma keluar sekali.</li>
+    </ol>
+    <p class="help">Satu aturan yang bikin main ini enak: apa pun yang keluar malam ini, nggak dibawa keluar dari tongkrongan.</p>
+    <button class="primary" data-close>Ngerti</button>
+  </div>
+</dialog>
+
+<dialog id="setDlg" aria-labelledby="setTitle">
+  <div class="sheet">
+    <div class="sheet-head"><h2 id="setTitle">Atur permainan</h2><button class="close" data-close aria-label="Tutup">×</button></div>
+    <div>
+      <label for="players">Nama pemain</label>
+      <textarea id="players" placeholder="Satu nama per baris&#10;Dimas&#10;Nadia&#10;Raka"></textarea>
+      <p class="help">Minimal 2 nama, maksimal 12. Urut searah jarum jam dari atas. Kosongin kalau mau nunjuk orang manual.</p>
+    </div>
+    <div>
+      <label>Paket pertanyaan</label>
+      <div class="cats" id="presets">
+        <button class="cat" type="button" data-preset="all">Semua</button>
+        <button class="cat" type="button" data-preset="love">Cinta doang</button>
+        <button class="cat" type="button" data-preset="safe">Aman, tanpa cinta</button>
+        <button class="cat" type="button" data-preset="light">Ringan &amp; ketawa</button>
+      </div>
+      <div class="cats" id="cats" style="margin-top:10px"></div>
+    </div>
+    <div class="switch">
+      <span>Suara botol</span>
+      <button class="cat" type="button" id="sound" aria-pressed="true">Nyala</button>
+    </div>
+    <div id="tally"></div>
+    <button class="primary" data-close>Simpan</button>
+    <div class="row">
+      <button class="ghost" id="share">Bagikan link</button>
+      <button class="ghost" id="reset">Kocok ulang</button>
+    </div>
+  </div>
+</dialog>
+
+<dialog id="listDlg" aria-labelledby="listTitle">
+  <div class="sheet">
+    <div class="sheet-head"><h2 id="listTitle">Semua pertanyaan</h2><button class="close" data-close aria-label="Tutup">×</button></div>
+    <input type="search" id="search" placeholder="Cari, misal: mantan" aria-label="Cari pertanyaan">
+    <div class="cats">
+      <button class="cat" type="button" id="fAll" aria-pressed="true">Semua</button>
+      <button class="cat" type="button" id="fSaved" aria-pressed="false">Tersimpan ⭐</button>
+    </div>
+    <p class="help" id="listInfo" style="margin:0"></p>
+    <ul class="list" id="list"></ul>
+  </div>
+</dialog>
+
+<script>
+// DATA START
+const CATS = {
+  crush:{n:"Romansa",e:"💘"}, mantan:{n:"Mantan & situationship",e:"💔"}, aib:{n:"Aib & malu",e:"🙈"},
+  temen:{n:"Tongkrongan",e:"🤙"}, kerja:{n:"Kerja & quarter-life",e:"💼"}, hp:{n:"HP & medsos",e:"📱"},
+  rumah:{n:"Keluarga",e:"🏠"}, random:{n:"Random",e:"🎲"}, kalau:{n:"Kalau-kalau",e:"🔮"}
+};
+const RAW = {
+crush:["Siapa crush lo sekarang? Sebut inisialnya aja.","Pernah naksir temen sendiri di tongkrongan ini?","Siapa orang terakhir yang bikin lo salting?","Pernah stalking IG crush sampai ke postingan paling bawah?","Pernah nggak sengaja ke-like foto lama crush pas lagi stalking?","Apa hal paling nekat yang pernah lo lakuin buat narik perhatian crush?","Pernah ditolak? Gimana ceritanya?","Pernah nolak orang? Kenapa?","Pernah digantungin? Berapa lama?","Pernah PHP-in orang tanpa sadar?","Siapa mantan yang masih suka lo kepoin?","Kalau mantan ngajak balikan sekarang, mau nggak?","Tipe ideal lo kayak gimana? Jelasin detail.","Ada orang di sini yang masuk tipe ideal lo?","Pernah suka sama pacar temen sendiri?","Pernah cemburu tapi gengsi ngaku?","Chat paling cringe yang pernah lo kirim ke gebetan apa?","Pernah nulis nama crush di belakang buku tulis?","Pernah bikin story kode buat seseorang? Buat siapa?","Berapa lama maksimal lo nunggu balesan chat crush sebelum mulai overthinking?","Pernah sengaja lewat depan kelas atau rumah crush?","Hal kecil apa yang bikin lo langsung ilfeel sama orang?","Hal kecil apa yang bikin lo langsung suka sama orang?","Pernah ditembak lewat chat? Lo jawab apa?","Lagu apa yang selalu ngingetin lo ke seseorang?","Pernah minta tolong temen buat nyomblangin lo?","Pernah jadi mak comblang? Berhasil nggak?","Kalau bisa jadian sama satu seleb, siapa?","Pernah naksir guru atau dosen?","Siapa orang yang paling susah lo move on-in?","Pernah balikan sama mantan? Worth it nggak?","Pernah di-ghosting? Ceritain dikit.","Pernah nge-ghosting orang? Kenapa?","Apa alasan paling absurd lo berhenti deketin orang?","Pernah naksir sama orang yang baru ketemu sekali?","Siapa yang pengen banget lo chat sekarang tapi gengsi?","Pernah salah kirim chat curhat ke orangnya langsung?","Kalau crush lo ada di sini sekarang, lo mau bilang apa?","Masih nyimpen barang pemberian mantan sampai sekarang?","Apa panggilan sayang paling alay yang pernah lo pakai?","Pernah cinlok pas kegiatan organisasi atau event?","Lo tipe yang nembak duluan atau nunggu ditembak?","Pernah PDKT sama dua orang sekaligus?","Menurut lo siapa di sini yang paling gampang baper?","Pernah pura-pura nggak peduli padahal naksir berat?","Pernah bikin playlist khusus buat seseorang?","Apa red flag yang pernah lo abaikan gara-gara udah terlanjur suka?","Pernah nyesel nggak nembak seseorang?","Siapa nama yang langsung muncul di kepala lo pas denger kata sayang?","Pernah ngerasa di-friendzone? Sama siapa?"],
+aib:["Momen paling malu-maluin lo di depan umum apa?","Pernah kentut di kelas terus pura-pura nggak tau?","Pernah salah manggil guru jadi Mama atau Papa?","Pernah jatuh di depan banyak orang?","Pernah ketahuan lagi ngomong sendiri?","Pernah salah masuk toilet?","Pernah dadah ke orang yang ternyata dadah ke orang lain?","Pernah ketiduran di tempat yang nggak seharusnya? Di mana?","Pernah nangis gara-gara film kartun?","Pernah nyanyi di kamar mandi terus kedengeran orang?","Kebiasaan jorok apa yang masih lo lakuin sampai sekarang?","Rekor paling lama lo nggak mandi berapa hari?","Pernah pakai baju kebalik seharian?","Pernah resleting celana kebuka dan baru sadar belakangan?","Pernah salah kirim stiker aneh ke grup keluarga?","Pernah ketahuan nyontek?","Pernah kepergok lagi ngupil?","Pernah ngaku-ngaku sesuatu yang ternyata ketahuan bohong?","Foto paling aib di galeri lo foto apa?","Pernah dimarahin di depan kelas? Gara-gara apa?","Pernah pingsan pas upacara?","Pernah ketawa di momen yang harusnya serius?","Pernah salah nyebut nama gebetan?","Pernah ketahuan pura-pura sakit biar nggak masuk?","Hal paling cupu yang pernah lo lakuin pas SMP apa?","Username medsos paling alay yang pernah lo punya apa?","Pernah bikin status galau yang sekarang bikin lo malu sendiri?","Pernah mabuk kendaraan sampai muntah di angkot atau bus?","Pernah ketahuan nguping obrolan orang?","Pernah joget sendiri di depan kaca terus ketahuan?","Pernah ngaku udah ngerjain PR padahal belum sama sekali?","Pernah nyasar jauh banget gara-gara sok tau jalan?","Pernah nyapa orang asing karena dikira temen?","Pernah ketahuan main HP pas lagi doa bareng?","Pernah kesandung di tangga pas lagi diliatin crush?","Pernah salah jawab pertanyaan guru dengan pede banget?","Pernah suara lo pecah pas lagi presentasi?","Pernah ketahuan belum bayar pas udah keluar warung?","Pernah salah ngetik nama orang di chat penting?","Pernah foto profil lo diketawain satu kelas?"],
+sekolah:["Nilai paling jelek yang pernah lo dapet berapa? Pelajaran apa?","Guru atau dosen favorit lo siapa dan kenapa?","Guru yang paling lo takutin siapa?","Pernah bolos? Ke mana?","Alasan paling ngarang yang pernah lo pakai buat izin?","Hukuman paling berat yang pernah lo terima apa?","Mata pelajaran yang paling lo benci apa?","Pernah tidur di kelas sampai ketahuan?","Pernah manjat pagar sekolah?","Pernah telat, terus alasannya apa?","Siapa temen sekelas yang paling lo kangenin?","Pernah dipanggil ke ruang BK? Kenapa?","Contekan paling kreatif yang pernah lo liat apa?","Pernah ngerjain tugas kelompok sendirian? Kesel nggak?","Pernah numpang nama doang di tugas kelompok?","Pernah jadi ketua kelas? Gimana rasanya?","Ekskul paling random yang pernah lo ikutin apa?","Pernah ngefans sama kakak kelas?","Pernah dikerjain pas MPLS atau ospek?","Momen paling seru pas study tour apa?","Pernah ngutang di kantin sampai lupa?","Cita-cita lo pas SD apa?","Kalau bisa ngulang satu masa sekolah, lo pilih SD, SMP, atau SMA?","Pernah nyalin PR temen pagi-pagi di sekolah?","Pernah remedial berapa kali dalam satu semester?","Pelajaran apa yang lo pura-pura ngerti padahal nggak?","Pernah diusir dari kelas?","Pernah ikut lomba? Menang nggak?","Pernah ngisi soal ujian pakai cap-cip-cup?","Siapa guru yang paling sering lo tiruin gayanya?","Pernah ketiduran pas ujian?","Pernah pura-pura ke toilet biar bisa keluar kelas lama?","Pernah ketahuan pakai sepatu atau atribut yang nggak sesuai aturan?","Kalau lo jadi kepala sekolah sehari, apa yang lo ubah?","Siapa temen sebangku terbaik lo sepanjang masa?","Pernah dapet nilai bagus tapi hasil nyontek?"],
+temen:["Siapa di sini yang paling sering lo ceritain ke orang lain?","Pernah ngomongin salah satu orang di sini di belakangnya?","Siapa di sini yang paling lo percaya buat jaga rahasia?","Siapa di sini yang paling nggak bisa jaga rahasia?","Pernah kesel sama orang di sini tapi nggak bilang?","Kalau tongkrongan ini jadi film, lo peran apa?","Siapa yang bakal nikah duluan di antara kita?","Siapa yang bakal paling sukses 10 tahun lagi?","Apa kesan pertama lo pas ketemu orang di sebelah kiri lo?","Pernah iri sama temen sendiri? Soal apa?","Siapa temen yang paling lama lo kenal?","Pernah musuhan sama sahabat? Gara-gara apa?","Pernah left grup chat? Kenapa?","Grup chat mana yang paling sering lo mute?","Ada rahasia yang belum pernah lo ceritain ke sahabat lo?","Pernah bohong ke temen biar nggak diajak keluar?","Alasan paling sering lo pakai buat nolak ajakan nongkrong?","Kalau lo harus tuker hidup sama satu orang di sini, pilih siapa?","Hal paling random yang pernah dilakuin bareng tongkrongan ini apa?","Momen tongkrongan paling berkesan buat lo apa?","Pernah nyembunyiin sesuatu dari tongkrongan ini?","Siapa di sini yang dulu lo kira nyebelin tapi ternyata asik?","Siapa di sini yang paling berubah sejak pertama kenal?","Pernah ngerasa jadi orang yang paling nggak dianggap di tongkrongan?","Kalau tongkrongan ini bubar, siapa yang bakal paling lo kangenin?","Siapa di sini yang paling sering jadi tempat curhat?","Pernah diajak nongkrong tongkrongan lain terus ngerasa lebih seru?","Nama grup chat tongkrongan paling aneh yang pernah lo ikutin apa?"],
+rumah:["Pernah bohong ke orang tua soal lagi di mana?","Alasan paling sering lo pakai buat izin keluar malam?","Pernah ketahuan pulang lewat jam malam?","Siapa di keluarga lo yang paling galak?","Pernah dimarahin gara-gara main HP terus?","Pernah ngambil uang kembalian belanja diam-diam?","Pernah pura-pura tidur biar nggak disuruh-suruh?","Kalimat omelan orang tua yang paling sering lo denger apa?","Pernah berantem hebat sama saudara? Gara-gara apa?","Barang saudara apa yang pernah lo pakai diam-diam?","Pernah dibandingin sama anak tetangga?","Hal apa yang masih lo rahasiain dari orang tua?","Pertanyaan pas lebaran yang paling lo takutin apa?","Pernah nyembunyiin rapor atau nilai dari orang tua?","Siapa di keluarga yang paling deket sama lo?","Pernah ngerusakin barang di rumah terus pura-pura nggak tau?","Pernah ngabisin makanan orang lain di kulkas?","Tugas rumah apa yang paling lo hindari?","Pernah ditelpon orang tua pas lagi nge-date?","Julukan dari keluarga yang paling lo benci apa?","Pernah pura-pura belajar padahal main HP?","Kalau bisa ubah satu aturan di rumah, aturan apa?"],
+hp:["Aplikasi apa yang paling lama lo pakai hari ini?","Screen time lo rata-rata berapa jam sehari?","Siapa orang terakhir yang lo stalk di medsos?","Pernah bikin akun fake? Buat apa?","Isi pencarian terakhir di HP lo apa?","Pernah hapus postingan karena likenya dikit?","Chat siapa yang lo pin paling atas?","Pernah screenshot chat orang terus dikirim ke grup lain?","Pernah ketahuan online tapi nggak bales chat?","Pernah matiin centang biru biar bisa baca diam-diam?","Foto terakhir di galeri lo foto apa? Tunjukin.","Pernah bikin story khusus biar dilihat satu orang?","Berapa kali sehari lo ngecek siapa aja yang liat story lo?","Pernah unfollow orang karena kesel? Siapa?","Konten apa yang paling sering muncul di FYP lo?","Pernah ikutan trend TikTok yang sekarang lo sesalin?","Game apa yang pernah lo top up paling banyak?","Pernah main HP sambil tiduran sampai HP-nya jatuh ke muka?","Kalau HP lo dibuka semua orang sekarang, lo panik nggak?","Aplikasi apa yang lo sembunyiin di folder?","Pernah berantem di kolom komentar?","Pernah nge-DM seleb? Dibales nggak?","Pernah ngirim voice note terus langsung nyesel?","Emoji yang paling sering lo pakai apa?","Nama kontak paling aneh di HP lo siapa?","Pernah nyimpen nomor orang pakai nama samaran?","Pernah bales chat pakai wkwk padahal nggak ketawa sama sekali?","Siapa yang ada di close friend lo tapi nggak tau dirinya ada di situ?","Akun gosip apa yang diam-diam lo follow?","Pernah pura-pura HP lowbat biar nggak dihubungin?"],
+random:["Kebiasaan aneh apa yang lo lakuin pas sendirian?","Makanan paling aneh yang lo suka apa?","Rekor lo nggak keluar kamar berapa lama?","Pernah ngobrol sama kucing kayak ngobrol sama manusia?","Lagu apa yang diam-diam lo suka tapi malu ngaku?","Film atau drama yang bikin lo nangis paling kenceng apa?","Lo takut sama sesuatu yang orang lain anggap lucu nggak? Apa?","Pernah ngerasa ada hantu di rumah?","Kebohongan kecil apa yang paling sering lo omongin?","Apa kebiasaan lo yang paling bikin kesel orang rumah?","Hal apa yang bikin lo gampang badmood?","Hal kecil apa yang bikin lo bahagia banget?","Pernah beli barang yang nggak kepake sama sekali? Apa?","Uang jajan lo paling banyak habis buat apa?","Lo lebih takut kecoa terbang atau ujian dadakan?","Mie instan favorit lo rasa apa? Pakai telur nggak?","Tim bubur diaduk atau nggak diaduk? Bela pilihan lo.","Hal paling impulsif yang pernah lo lakuin apa?","Pernah nangis tanpa alasan yang jelas?","Kapan terakhir kali lo ngerasa bangga sama diri sendiri?","Apa hal yang pengen banget lo ubah dari diri lo?","Apa hal yang paling lo syukurin tahun ini?","Ketakutan terbesar lo apa?","Kalau bisa ngomong sama diri lo 5 tahun lalu, mau bilang apa?","Kata atau istilah gaul apa yang paling sering lo pakai?","Pernah ketagihan satu jajanan sampai tiap hari beli?","Lo orangnya pagi atau malam? Buktiin.","Apa pendapat lo yang paling nggak populer?"],
+kalau:["Kalau jadi presiden sehari, hal pertama yang lo lakuin apa?","Kalau dapet duit 1 miliar sekarang, lo pakai buat apa?","Kalau bisa punya satu kekuatan super, pilih apa?","Kalau terdampar di pulau dan cuma boleh bawa satu orang dari sini, siapa?","Kalau bisa hapus satu kenangan, kenangan apa?","Kalau bisa balik ke satu momen, momen yang mana?","Kalau hidup lo jadi sinetron, judulnya apa?","Kalau jadi hantu, lo mau nakutin siapa duluan?","Kalau bisa jadi invisible sehari, ngapain?","Kalau disuruh pilih: nggak pegang HP seminggu atau nggak jajan seminggu?","Kalau bisa tinggal di kota mana aja di Indonesia, pilih mana?","Kalau lo jadi seleb, kontennya tentang apa?","Kalau tongkrongan ini bikin band, lo pegang apa?","Kalau besok kiamat, malam ini lo ngapain?","Kalau bisa ketemu satu tokoh sejarah, siapa?","Kalau harus makan satu makanan seumur hidup, pilih apa?","Kalau bisa dapet jawaban jujur dari satu orang, lo tanya ke siapa dan tanya apa?","Kalau bisa nambahin satu aturan di sekolah, aturan apa?","Kalau lo jadi hewan, lo hewan apa?","Kalau hidup lo ada tombol skip, bagian mana yang mau lo skip?","Kalau bisa ngulang satu hari minggu ini, hari apa?","Kalau lo bikin usaha bareng orang di sini, usaha apa?"]
+};
+function buildQuestions(){
+  const out=[]; const add=(c,t)=>out.push({c,t});
+  const T=(c,f,arr)=>arr.forEach(x=>add(c,f(x)));
+  T("crush",x=>x,["Kapan first kiss lo, dan sama siapa? Inisial aja.","Love language lo apa? Kasih contoh nyata.","Love language apa yang paling susah lo kasih ke orang?","Pernah main dating app? Match paling aneh siapa?","Bio dating app lo isinya apa? Bacain.","Pernah ketemuan sama match dating app? Gimana ceritanya?","First date terburuk lo kayak gimana?","First date terbaik lo kayak gimana?","Siapa yang harus bayar pas first date menurut lo?","Pernah di-unmatch pas lagi seru-serunya chat?","Berapa lama idealnya PDKT sebelum jadian?","Pernah ngerasain LDR? Worth it nggak?","Mau nggak LDR beda negara?","Umur berapa target lo nikah?","Udah kepikiran nikah sama pacar atau gebetan lo sekarang?","Pernah dikenalin ke orang tua pasangan? Gimana rasanya?","Pernah ngenalin pasangan ke orang tua lo? Reaksinya gimana?","Hal apa yang bikin lo yakin mau serius sama seseorang?","Deal breaker terbesar lo dalam hubungan apa?","Menurut lo cinlok di kantor itu ide bagus atau bencana?","Pernah naksir orang yang jauh lebih tua?","Pernah naksir orang yang lebih muda?","Pernah suka sama orang yang beda prinsip banget? Gimana lo nyikapinnya?","Pernah ngerasa cuma dijadiin pelarian?","Pernah jadiin orang pelarian?","Siapa orang yang paling bikin lo pengen jadi versi lebih baik?","Apa hal paling manis yang pernah dikasih pasangan atau gebetan lo?","Kado paling romantis yang pernah lo kasih apa?","Pernah nyiapin surprise buat pasangan? Berhasil nggak?","Pernah dikasih surprise yang gagal total?","Pernah jatuh cinta sama dua orang sekaligus?","Pernah ditaksir temen sendiri dan lo nggak bisa bales?","Lo lebih suka dikejar atau ngejar?","Pernah confess duluan? Gimana hasilnya?","Hal apa yang pengen banget lo lakuin bareng pasangan tapi belum kesampaian?","Date impian lo kayak gimana?","Tempat nge-date favorit lo di mana?","Pernah telat parah pas nge-date?","Pernah bawa temen pas nge-date biar nggak canggung?","Pernah pura-pura sibuk biar keliatan nggak desperate?","Berapa lama lo biasanya nunda bales chat biar keliatan cool?","Pernah cemburu sama sahabat pasangan?","Pernah ngecek HP pasangan diam-diam?","Menurut lo pasangan harus saling tau password HP nggak?","Pernah berantem sama pasangan gara-gara hal paling receh? Apa?","Siapa yang biasanya minta maaf duluan pas lo berantem sama pasangan?","Pernah nangis di depan pasangan?","Pernah nulis caption romantis yang sekarang bikin lo geli sendiri?","Lo tim hard launch atau soft launch pasangan di medsos?","Pernah soft launch pasangan pakai foto tangan doang?","Kalau punya pasangan, seberapa sering idealnya ketemu?","Kalau punya pasangan, seberapa sering idealnya chat?","Pernah ngerasa bosen dalam hubungan? Terus lo ngapain?","Menurut lo cinta itu dipilih atau dateng sendiri?","Lo percaya soulmate nggak?","Lo percaya cinta pada pandangan pertama nggak?","Pernah dijodohin keluarga? Gimana ceritanya?","Pernah dikenalin temen ke orang terus nggak nyambung sama sekali?","Siapa di sini yang paling pengen lo jodohin, dan sama siapa?","Pasangan mana di lingkaran temen kita yang menurut lo bakal awet?","Pernah suka sama orang di tongkrongan ini dulu?","Kalau harus pacaran sama salah satu orang di sini, pilih siapa?","Siapa di sini yang paling red flag kalau jadi pacar? Jujur.","Siapa di sini yang paling green flag kalau jadi pacar?","Apa green flag lo sendiri sebagai pasangan?","Apa red flag lo sendiri sebagai pasangan?","Pernah naksir orang yang cuma lo kenal dari medsos?","Pernah DM orang duluan buat kenalan?","Pernah reply story orang cuma buat mancing obrolan?","Reply story paling berhasil yang pernah lo kirim apa?","Pernah nge-like foto orang jam 2 pagi terus panik?","Pernah telponan sampai pagi sama gebetan? Ngobrolin apa aja?","Pernah dianter pulang terus nggak mau buru-buru turun?","Pernah ketahuan senyum-senyum sendiri baca chat?","Kalimat apa yang pasti bikin lo luluh?","Pujian apa yang paling bikin lo salting?","Hal apa dari seseorang yang paling narik perhatian lo pertama kali?","Lo lebih tertarik sama fisik, cara ngomong, atau vibes?","Pernah naksir cuma gara-gara suaranya?","Pernah naksir cuma gara-gara wanginya?","Pernah naksir cuma gara-gara cara dia ketawa?","Pernah naksir orang karena dia jago di satu bidang? Bidang apa?","Pernah nolak orang yang sebenernya baik banget? Nyesel nggak?","Pernah ngerasa nggak pantes buat seseorang?","Apa ketakutan terbesar lo soal hubungan?","Kalau pasangan lo dapet kerja di luar negeri, lo bakal gimana?","Pernah ngalah soal hal besar demi pasangan?","Hal apa yang nggak bakal lo korbanin buat pasangan?","Pernah pacaran diam-diam biar nggak ketahuan temen atau keluarga?","Pernah jadi pihak ketiga tanpa sadar?","Pernah ngerasa diselingkuhin? Gimana lo tau?","Menurut lo micro-cheating itu contohnya apa aja?","Chat sama mantan pas udah punya pacar itu selingkuh nggak menurut lo?","Pernah curiga sama pasangan dan ternyata bener?","Lagu apa yang pengen lo puter di nikahan lo nanti?","Konsep nikahan impian lo kayak gimana?","Siapa di sini yang bakal lo minta jadi bridesmaid atau groomsmen?","Pernah baper sampai nangis di nikahan orang?","Pernah ditanya kapan nyusul pas kondangan? Lo jawab apa?","Pernah bawa gebetan ke kondangan biar nggak ditanya-tanyain?","Apa momen paling romantis yang pernah lo alamin?","Siapa orang terakhir yang bikin jantung lo deg-degan parah?","Pernah pegangan tangan pertama kali dan grogi banget? Sama siapa?","Pernah salting sampai salah ngomong di depan gebetan?","Pernah nge-date tapi ternyata dia udah punya pacar?","Pernah di-friendzone pas lo udah yakin banget?","Menurut lo cowok dan cewek bisa sahabatan murni nggak?","Pernah punya sahabat lawan jenis yang dicemburuin pasangan lo?","Hal paling cringe apa yang pernah lo lakuin pas lagi kasmaran?","Pernah bikin puisi buat seseorang?","Siapa nama yang langsung muncul di kepala lo sekarang kalau denger kata kangen?","Kalau malam ini gebetan lo ngajak ketemu, lo cabut dari sini nggak?","Pernah cium pipi orang yang lo suka duluan?","Pelukan paling berkesan yang pernah lo dapet dari siapa?","Pernah ngerasa pacaran tapi nggak pernah ada kata jadian?","Kalau bisa ngulang satu first date, first date sama siapa?","Seberapa cepet lo biasanya bilang sayang ke pasangan?","Pernah bilang sayang duluan terus nggak dibales?","Pernah nulis chat panjang buat confess terus nggak jadi dikirim?","Siapa orang yang paling sering jadi alasan lo senyum tahun ini?","Pernah ngerasa jatuh cinta sama sahabat sendiri pelan-pelan?","Pernah ngerasa cemburu padahal belum jadi siapa-siapa?","Pernah ngajak nikah bercanda tapi sebenernya serius?","Pernah ngebayangin nama anak sama gebetan?","Pernah ngerasa gebetan lo cuma butuh lo pas lagi sedih?","Kalau pasangan lo lupa anniversary, lo bakal ngambek nggak?","Anniversary paling berkesan yang pernah lo rayain gimana?","Pernah ngerasa pasangan lo lebih sayang sama temennya?","Pernah dipuji pasangan di depan keluarganya?","Pernah dikenalin ke temen-temen pasangan dan ngerasa awkward?","Apa kebiasaan kecil pasangan yang bikin lo makin sayang?","Hal paling romantis yang bisa dilakuin tanpa keluar duit menurut lo apa?"]);
+  T("crush",x=>`Siapa di sini yang paling ${x}? Kenapa?`,["gampang jatuh cinta","susah jatuh cinta","romantis","pinter gombal","jago PDKT","kaku kalau PDKT","cemburuan","posesif","sering di-ghosting","sering nge-ghosting","banyak yang naksir diam-diam","cocok nikah duluan","susah ditebak perasaannya","gampang luluh","pemilih soal pasangan","jago nyembunyiin perasaan","sering curhat soal cinta","clingy kalau pacaran","pinter bikin kejutan","gampang ketipu gombalan"]);
+  T("mantan",x=>x,["Berapa jumlah mantan lo? Jujur.","Mantan mana yang paling berkesan?","Mantan mana yang paling lo sesalin?","Kenapa hubungan terakhir lo selesai?","Siapa yang mutusin di hubungan terakhir lo?","Pernah diputusin lewat chat?","Pernah mutusin orang lewat chat?","Masih follow mantan di medsos?","Masih nyimpen foto sama mantan di galeri?","Pernah nge-chat mantan tengah malam gara-gara kangen?","Pernah nge-chat mantan cuma buat pamer lagi bahagia?","Pernah stalk pacar baru mantan?","Menurut lo pacar baru mantan lo lebih baik dari lo nggak?","Pernah temenan lagi sama mantan?","Mantan mana yang masih suka nge-chat lo?","Kalau mantan nikah duluan, perasaan lo gimana?","Pernah balikan terus putus lagi?","Butuh berapa lama lo move on dari mantan terakhir?","Apa hal yang lo pelajari dari mantan terakhir?","Barang peninggalan mantan apa yang masih lo pakai?","Lagu apa yang nggak bisa lo denger lagi gara-gara mantan?","Tempat apa yang lo hindarin gara-gara kenangan sama mantan?","Kalau bisa ngomong satu kalimat ke mantan sekarang, lo bilang apa?","Pernah ketemu mantan nggak sengaja? Gimana reaksi lo?","Pernah pura-pura bahagia di depan mantan?","Pernah pacaran sama mantan temen lo?","Pernah naksir mantan temen sendiri?","Mantan lo kenal sama orang di sini nggak? Siapa?","Pernah dibandingin sama mantan pasangan lo?","Pernah bandingin pasangan sama mantan?","Masih nyimpen chat lama sama mantan?","Pernah punya situationship? Berapa lama?","Kenapa situationship lo nggak jadi pacaran?","Pernah nanya kita ini apa dan jawabannya bikin sakit?","Pernah jadi orang yang nggak mau ngasih kejelasan?","Pernah digantungin sampai dia jadian sama orang lain?","Pernah HTS-an sama orang yang sekarang ada di tongkrongan ini?","Pernah deket sama orang cuma karena kesepian?","Pernah nerima orang karena nggak enak nolak?","Pernah bertahan di hubungan yang udah nggak sehat? Kenapa?","Apa tanda-tanda lo harus udahan sama seseorang menurut lo?","Pernah putus tapi masih jalan bareng kayak pacaran?","Pernah di-breadcrumbing, dikasih perhatian dikit-dikit biar nggak pergi?","Pernah bikin story kode move on biar mantan liat?","Pernah ganti gaya rambut atau penampilan abis putus?","Hal paling dramatis yang lo lakuin abis putus apa?","Pernah nangis di tempat umum gara-gara putus?","Siapa di sini yang paling berjasa pas lo patah hati?","Pernah di-ghosting setelah first date?","Pernah nge-ghosting orang setelah first date? Kenapa?","Pernah di-zombie-in, di-ghosting terus tiba-tiba dia muncul lagi?","Pernah nerima lagi orang yang udah pernah nge-ghosting lo?","Siapa orang dari masa lalu yang pengen lo ajak ngobrol lagi?","Siapa orang dari masa lalu yang pengen banget lo lupain?","Pernah blokir mantan? Udah di-unblock belum?","Pernah diblokir mantan?","Pernah bikin akun kedua buat ngepoin mantan?","Kalau mantan minta maaf sekarang, lo maafin nggak?","Pernah nyesel mutusin seseorang?","Hubungan mana yang paling bikin lo dewasa?","Hubungan terpendek lo berapa hari?","Pernah jadian sama orang yang nggak lo suka-suka amat?","Pernah putus tanpa alasan yang jelas?","Kalau ada mesin waktu, hubungan mana yang mau lo cegah?","Mantan mana yang paling disukain orang tua lo?","Orang tua lo masih suka nanyain mantan?","Pernah temen lo pacaran sama mantan lo? Gimana perasaan lo?","Menurut lo mantan boleh diundang ke nikahan nggak?","Kalau diundang ke nikahan mantan, dateng nggak?","Pernah dapet kabar mantan tunangan? Rasanya gimana?","Pernah ngerasa mantan lo sebenernya jodoh lo?","Pernah mimpiin mantan? Ceritain.","Pernah salah panggil pasangan pakai nama mantan?","Menurut lo siapa yang lebih susah move on, lo atau mantan lo?","Pernah ngecek last seen mantan?","Pernah liat story mantan terus langsung nyesel?","Pernah nyanyi lagu galau di karaoke sambil mikirin seseorang? Siapa?","Pernah ngerasa lega banget setelah putus?","Mantan lo sekarang lebih glow up atau lo yang lebih glow up?","Apa yang bakal lo lakuin kalau mantan dateng ke tongkrongan ini sekarang?"]);
+  T("kerja",x=>x,["Kerjaan lo sekarang sesuai passion nggak?","Gaji pertama lo dipakai buat apa?","Pernah nangis di toilet kantor?","Pernah pura-pura sibuk di depan atasan?","Pernah salah kirim chat ngomongin atasan ke grup yang salah?","Atasan paling nyebelin yang pernah lo punya kayak gimana?","Pernah resign mendadak? Kenapa?","Pernah kepikiran resign minggu ini?","Pernah ngebohong dikit pas interview kerja?","Pertanyaan interview paling aneh yang pernah lo dapet apa?","Pernah ditolak kerja berapa kali sebelum dapet kerjaan sekarang?","Pernah nge-mute grup kantor pas weekend?","Pernah izin sakit padahal cuma males?","Siapa rekan kerja yang paling lo suka? Kenapa?","Pernah naksir rekan kerja?","Pernah ketiduran pas meeting online?","Pernah lupa matiin mic pas meeting?","Pernah ketahuan main HP pas meeting?","Kejadian paling absurd di kantor lo apa?","Lo lebih suka WFO atau WFH? Kenapa?","Menurut lo lo lagi quarter-life crisis nggak?","Apa yang paling bikin lo cemas soal umur 25?","Pernah ngerasa ketinggalan dari temen seumuran?","Pernah insecure liat pencapaian orang di LinkedIn?","Postingan LinkedIn lo yang paling cringe apa?","Target lo 5 tahun lagi apa?","Kalau nggak mikirin duit, lo mau kerja apa?","Pernah iri sama gaji temen?","Pernah kalap belanja pas gajian?","Pernah nyesel beli sesuatu pakai paylater?","Kapan terakhir kali lo ngerasa burnout?","Hal apa yang bikin lo bertahan di kerjaan sekarang?","Pernah ngerasa salah pilih karier?","Pernah dimarahin di depan tim?","Kesalahan paling fatal lo di kerjaan apa?","Pernah pura-pura ngerti istilah di meeting padahal nggak?","Siapa orang kantor yang paling sering lo omongin sama temen?","Kerjaan sampingan apa yang pernah lo coba?","Pernah kepikiran buka usaha sendiri? Usaha apa?","Hal paling susah dari tinggal sendiri atau ngekos apa?","Masih suka dikasih duit sama orang tua? Jujur.","Udah pernah ngasih uang ke orang tua dari gaji sendiri?","Hal apa yang pengen lo capai sebelum umur 30?","Apa definisi sukses buat lo sekarang?","Hal apa yang bikin lo ngerasa udah dewasa?","Hal apa yang bikin lo ngerasa masih bocah?","Pernah ngerasa kesepian di kota besar?","Kalau bisa pindah kota buat kerja, pilih kota mana?","Pernah iri sama temen yang udah nikah?","Pernah iri sama temen yang masih bebas ke mana-mana?","Bagian hidup mana yang lagi ngerasa paling stuck?","Pernah ikut kursus cuma karena FOMO?","Kebiasaan kantor apa yang diam-diam lo benci?","Pernah lembur sampai nginep di kantor?","Pernah pakai alasan kerjaan buat nolak ketemu orang?","Siapa di sini yang menurut lo kariernya paling keren?","Pernah ngerasa impostor syndrome?","Kalau hari ini gajian dobel, lo beli apa pertama kali?","Hal apa yang pengen lo bilang ke atasan tapi nggak berani?","Pernah nolak tawaran kerja yang ternyata bagus?","Pernah ngerasa cuma jadi budak korporat?","Pernah dapet crush di kantor klien atau vendor?","Pernah pacaran sama rekan sekantor diam-diam?","Pernah nge-date pas jam makan siang kantor?","Kerjaan atau pasangan, mana yang lebih sering bikin lo overthinking?"]);
+  T("rumah",x=>x,["Seberapa sering keluarga lo nanya kapan nikah?","Orang tua lo udah mulai nanyain calon?","Pernah dikenalin sama anak temen orang tua?","Pernah dijodohin tante atau om di acara keluarga?","Keluarga lo lebih suka lo nikah cepet atau fokus karier dulu?","Pernah bawa pasangan ke acara keluarga besar? Gimana?","Pernah bohong ke orang tua soal lagi jalan sama siapa?","Siapa di keluarga yang paling kepo soal kisah cinta lo?"]);
+  for(const c in RAW) if(c!=='sekolah') RAW[c].forEach(t=>add(c,t));
+  T("temen",x=>`Siapa di tongkrongan ini yang paling ${x}? Kasih buktinya.`,["receh","galak","bucin","pelit","royal","alay","sok cool","sok sibuk","jaim","lebay","baperan","cuek","perhatian","pinter","mager","rajin","jorok","rapi","wangi","gengsian","kepo","drama","pelupa","ceroboh","penakut","berani","gampang ketawa","cengeng","hemat","boros","ngaret","on time","jago ngeles","jago masak","jago nyanyi","fals kalau nyanyi","jago joget","kaku kalau joget","rame di grup chat","pendiem di grup chat","sering typo","sering salah paham","polos","curang kalau main game","ambis","santuy","overthinking","gampang panik","tukang tidur","tukang makan","pilih-pilih makanan","fashionable","asal pakai baju","narsis","susah difoto","jago ngefoto","sering kalah main game","jago ngerayu guru","susah bangun pagi","hobi begadang","gampang ditipu","gampang percaya hoaks","sering ngutang","dermawan","sok tau","jujur","jago bohong","misterius","terbuka soal perasaan","susah move on","cepet move on","sering ganti gebetan","setia","hobi ngegosip","bijak kalau dicurhatin","asal kalau dicurhatin","ramah ke orang baru","jutek ke orang baru","lucu tanpa sadar","gampang dikerjain"]);
+  T("temen",x=>`Siapa di sini yang paling cocok ${x}? Kenapa?`,["jadi presiden","jadi pemain sinetron","jadi YouTuber","jadi guru BK","jadi pelawak","jadi detektif","jadi dokter","jadi chef","jadi atlet","jadi motivator","jadi influencer","jadi pengacara","jadi MC nikahan","jadi penyiar radio","jadi mata-mata","jadi pemain film horor","jadi kapten bajak laut","jadi CEO startup","jadi seller online paling laris","jadi admin akun gosip","jadi komentator bola","jadi peramal zodiak","jadi guru les","jadi ketua RT","jadi sopir angkot","jadi barista","jadi sutradara","jadi penulis novel","jadi fotografer","jadi food vlogger","jadi pemandu wisata","jadi juri ajang pencarian bakat","jadi host acara kuis","jadi pilot","jadi tentara","jadi astronaut","jadi penjaga warnet","jadi satpam kompleks"]);
+  T("random",x=>`Kapan terakhir kali lo ${x}? Ceritain.`,["nangis","bohong","ketawa sampai sakit perut","marah beneran","minta maaf duluan","bilang sayang ke orang tua","bangun kesiangan","begadang sampai subuh","salting parah","dimarahin orang tua","makan sampai kekenyangan","nggak mandi seharian","ngestalk mantan","chat duluan ke crush","curhat panjang ke orang","nulis diary","olahraga beneran","baca buku sampai habis","jalan kaki jauh","naik angkot","jajan cilok","ke bioskop","nginep di rumah temen","dapet pujian","ngasih kado ke orang","dapet kado","nyanyi keras-keras","joget sendirian","beresin kamar","ngerjain tugas H-1","lupa bawa barang penting","ngilangin barang","ketinggalan kendaraan","nabung","ngabisin duit buat hal nggak penting","berantem sama temen","ngambek","didiemin orang","diem-dieman sama orang tua","video call lebih dari sejam","telponan sampai ketiduran","ngerasa kesepian","bantu orang asing","masak sendiri","makan sayur tanpa disuruh","ketiduran di kendaraan","ngelamun lama banget","ngeluh","ganti foto profil","deg-degan parah","ngerasa insecure","bikin orang lain nangis","dibikin nangis orang","ketemu orang yang lagi lo hindarin","nonton film sampai begadang","main game sampai lupa waktu","ngerasa beneran bahagia","ketawa sendiri liat HP","dimarahin guru","nulis surat atau kartu buat orang"]);
+  T("random",p=>{const [a,b]=p.split("|");return `Jujur aja, lo lebih pilih ${a} atau ${b}? Kenapa?`},["nongkrong di kafe|nongkrong di angkringan","chat|telpon","cilok|seblak","bakso|mie ayam","martabak manis|martabak telor","kopi susu|es teh manis","kucing|anjing","pantai|gunung","pacar perhatian tapi posesif|pacar cuek tapi setia","temen banyak|sahabat dikit tapi deket","kaya tapi kesepian|pas-pasan tapi bahagia","pinter|populer","jujur tapi nyakitin|bohong tapi bikin tenang","nonton horor|nonton drama romantis","K-pop|band lokal","naik ojol|nebeng temen","belajar sendiri|belajar kelompok","ujian lisan|ujian tertulis","sehari tanpa HP|sehari tanpa makanan enak","diputusin|mutusin","ditembak di depan umum|ditembak lewat chat","nasi padang|warteg","Indomie goreng|Indomie kuah","hujan-hujanan|rebahan pakai selimut","ketahuan nangis|ketahuan kentut","dikepoin mantan|dikepoin gebetan","tinggal di kota|tinggal di desa","terkenal|kaya","bisa terbang|bisa baca pikiran","balik ke masa lalu|liat masa depan","liburan ke Bali|liburan ke Labuan Bajo","Jepang|Korea","ditraktir|nraktir","tugas numpuk|ujian dadakan","guru galak tapi jelas|guru baik tapi nggak jelas","gebetan yang balesnya lama|gebetan yang cepet tapi singkat","es krim|gorengan","foto candid|foto pose","komik|anime","tinggal sama orang tua|ngekos","punya adik|punya kakak","jadi anak pertama|jadi anak bungsu","bangun jam 4 pagi|tidur jam 4 pagi","lagu galau|lagu semangat","mandi air dingin|mandi air anget","jalan kaki 5 km|naik tangga 20 lantai","dibales wkwk|dibales oh ok","ultah dirayain rame-rame|ultah yang tenang","salah kostum|salah ruangan","nonton konser|nonton bola di stadion","sate|soto","hidup tanpa musik|hidup tanpa film","ketemu idola|ketemu jodoh hari ini","libur sebulan tanpa duit|kerja sebulan dapet banyak duit","WiFi lemot|baterai HP tinggal 5 persen","telat 30 menit|dateng kecepetan 1 jam","disayang guru|disayang temen sekelas","punya kembaran|jadi anak tunggal","bisa semua bahasa|bisa main semua alat musik","jadi yang paling lucu|jadi yang paling pinter"]);
+  T("aib",x=>`Pernah nggak lo ${x}? Ceritain dong.`,["nyontek pas ujian penting","ngerjain orang sampai dia marah beneran","pura-pura nggak kenal orang di jalan","pura-pura lagi telepon biar nggak diajak ngobrol","nangis di kamar mandi sekolah","minta maaf tapi nggak tulus","ngambil makanan temen tanpa izin","ngaku-ngaku kenal orang terkenal","ketipu belanja online","nyasar di mall","ketinggalan rombongan","dikejar anjing","ngabisin uang jajan sehari cuma dalam sejam","nyimpen dendam lama","ikut fanwar","nangis gara-gara nilai","ngerasa nggak dianggap di grup","ngambek gara-gara hal sepele","nyanyi di depan umum","lupa ulang tahun sahabat","ngaku sakit biar dapet perhatian","ketawa sampai kentut","salah ngomong di depan guru","ngerusak barang pinjaman","ngilangin barang pinjaman terus diem aja","pura-pura suka sama hadiah","ngasih kado hasil dapet kado dari orang lain","pakai baju yang sama tiga hari","pura-pura paham pas dijelasin","ketiduran pas lagi video call","diboncengin terus jatuh","titip absen","kebelet di jalan dan panik","ngerasa salah jurusan","ngelempar barang pas marah","nulis surat buat seseorang tapi nggak dikirim","ngaku jomblo padahal nggak","ngaku punya pacar padahal jomblo","ngedit foto sampai nggak mirip aslinya","minta foto bareng orang asing","nemu duit di jalan","nyelametin hewan","viral walau cuma sebentar","masuk TV","ketemu artis","ngantri berjam-jam demi sesuatu","nonton konser sampai suara habis","nge-prank orang tua","kena prank sampai nangis","bikin orang tua bangga banget","bikin orang tua kecewa banget","bohong ke sahabat soal hal besar","ngebocorin rahasia orang","ngegosipin orang yang ternyata ada di belakang lo","salah kirim chat gosip ke orangnya","masak sampai gosong","ngerusakin HP sendiri gara-gara emosi","nabrak sesuatu pas belajar naik motor atau sepeda","nyasar gara-gara Maps","kehabisan bensin di jalan","kehabisan duit pas mau bayar","ninggalin dompet di tempat makan","salah naik bus atau kereta","takut gelap sampai sekarang","tidur pakai lampu nyala karena takut","ngerasa diikutin makhluk halus","uji nyali di tempat angker","ngaku-ngaku indigo","percaya banget sama zodiak","mimpi sesuatu yang terus kejadian","pura-pura nggak denger dipanggil","pura-pura sibuk biar nggak dimintain tolong","ngaku udah di jalan padahal baru bangun","ngabisin kuota temen lewat hotspot","nge-mute orang di story","ngaku-ngaku bisa masak","ngumpet pas ada tamu","pura-pura jadi orang lain di chat","nangis di depan guru","ketahuan ngelamunin crush","salah panggil nama pacar temen","ketumpahan minuman di baju pas acara penting","ngerayain ultah sendirian","ngerasa iri sama adik atau kakak sendiri","dimarahin satpam","ketinggalan barang di angkot","ngerasa hidup lo kayak FTV","ngerasa nyesel banget setelah beli sesuatu"]);
+  T("random",p=>{const [a,b]=p.split("|");return `Apa ${a} yang pernah lo ${b}?`},["makanan paling aneh|coba","hadiah paling berkesan|dapet","hadiah paling nggak berguna|dapet","kebohongan paling besar|bilang","alasan telat paling ngarang|pakai","barang paling mahal|beli pakai duit sendiri","pengalaman paling horor|alamin","tempat paling jauh|datengin","momen paling awkward|alamin","chat paling nyesel|kirim","foto paling aib|upload","keputusan paling salah|ambil","keputusan paling bener|ambil","pujian paling berkesan|terima","kritik paling nyakitin|denger","nasihat paling berguna|dapet","hal paling nekat|lakuin demi temen","hal paling konyol|lakuin demi konten","mimpi paling aneh|alamin","nama panggilan paling aneh|dapet","julukan paling nyebelin|dapet","jajanan sekolah paling enak|makan","hukuman paling lucu|terima","cita-cita paling aneh|punya","ide bisnis paling absurd|pikirin","barang paling random|bawa di tas","momen paling bahagia|rasain tahun ini","momen paling sedih|rasain tahun ini","kesalahan paling bodoh|bikin pas ujian","pertanyaan paling aneh|dapet dari orang","komentar paling julid|terima di medsos","salah paham paling parah|alamin","kado paling niat|kasih","minuman paling aneh|coba","tempat paling aneh|jadiin tempat tidur","barang paling aneh|beli online","perjalanan paling capek|jalanin","rencana paling gagal|bikin bareng temen","rencana dadakan paling seru|jalanin","masakan paling gagal|bikin","lelucon paling garing|lontarin","alasan paling absurd|pakai buat berantem","lagu paling sering|puter tahun ini","film paling sering|tonton ulang","janji paling sering|ingkarin","hal paling berani|lakuin di depan umum","kebiasaan paling aneh|liat dari temen","hal paling mahal|rusakin"]);
+  T("kalau",x=>`Kalau harus ${x}, lo pilih siapa di sini?`,["tukeran HP seharian","jadi temen sekamar sebulan","satu kelompok tugas besar","nemenin uji nyali","nyasar bareng di hutan","jagain rahasia terbesar lo","jadi partner bisnis","duet karaoke","ikut lomba masak berdua","nemenin belanja seharian","satu tim lomba 17-an","jadi bodyguard lo","ngatur gaji lo sebulan","road trip keliling Jawa","jadi temen satu kos","maraton film horor semalaman","jadi admin medsos lo seminggu","balesin chat gebetan lo","jawabin pertanyaan keluarga lo pas lebaran","ngerencanain ulang tahun lo","nemenin lo pas lagi sedih","jadi partner debat","jadi co-host podcast","main badminton ganda","ngambil satu keputusan penting buat lo","milihin baju lo seminggu","minjemin duit pas darurat","nemenin begadang ngerjain tugas","jadi guide pas liburan","ngajarin lo pelajaran yang paling lo benci","gantiin lo presentasi","jadi saksi pas lo ditembak atau nembak","nemenin lo ketemu calon mertua"]);
+  T("temen",x=>`Jujur, ${x}`,["apa kesan pertama lo ke orang di sebelah kanan lo?","apa kesan pertama lo ke orang di depan lo?","hal apa yang lo kagumi dari orang di sebelah kiri lo?","hal apa yang lo kagumi dari orang yang terakhir dateng tadi?","apa bakat terpendam orang di sebelah kanan lo?","julukan apa yang paling cocok buat orang di depan lo?","lagu apa yang paling cocok buat orang di sebelah kiri lo?","hewan apa yang paling mirip sama orang di sebelah kanan lo?","profesi apa yang paling cocok buat orang di depan lo?","emoji apa yang paling mewakili orang di sebelah kiri lo?","warna apa yang paling cocok buat orang di sebelah kanan lo?","siapa di sini yang dulu lo kira sombong?","siapa di sini yang paling sering bikin lo ketawa?","siapa di sini yang paling pengen lo kenal lebih jauh?","siapa di sini yang paling mirip sama lo?","siapa di sini yang paling beda sama lo?","siapa di sini yang paling pengen lo tiru?","siapa di sini yang paling sering lo mintain tolong?","siapa di sini yang paling sering nyelametin lo?","apa yang pengen lo bilang ke orang di sebelah kiri lo tapi belum sempet?","apa yang pengen lo bilang ke orang di sebelah kanan lo tapi belum sempet?","siapa di sini yang paling berjasa buat lo tahun ini?"]);
+  T("random",x=>`Dari 1 sampai 10, ${x}? Jelasin angkanya.`,["seberapa bucin lo","seberapa jago lo masak","seberapa sering lo overthinking","seberapa kangen lo sama mantan","seberapa takut lo sama gelap","seberapa jujur lo malam ini","seberapa kepo lo sama urusan orang","seberapa gengsi lo","seberapa bagus suara lo","seberapa jago lo joget","seberapa mager lo","seberapa ambis lo","seberapa sering lo ngaret","seberapa hemat lo","seberapa rapi kamar lo sekarang","seberapa sabar lo","seberapa gampang lo baper","seberapa percaya diri lo","seberapa kecanduan lo sama HP","seberapa deket lo sama orang tua","seberapa seru tongkrongan ini","seberapa menarik lo menurut diri sendiri","seberapa jago lo bohong","seberapa sering lo ngegosip","seberapa betah lo di rumah","seberapa suka lo sama sekolah atau kampus lo","seberapa fashionable lo","seberapa jago lo main game","seberapa gampang lo marah","seberapa romantis lo","seberapa sering lo stalking","seberapa takut lo sama ujian","seberapa puas lo sama hidup lo sekarang","seberapa lucu lo menurut diri sendiri","seberapa sering lo lupa bales chat","seberapa jago lo nabung","seberapa berantakan galeri HP lo","seberapa bisa lo jaga rahasia","seberapa pengen lo punya pacar sekarang","seberapa kenal lo sama orang di sebelah kanan lo"]);
+  T("random",x=>`Ceritain pengalaman pertama lo ${x}.`,["naik pesawat","naik motor sendiri","masuk sekolah baru","ditinggal sendirian di rumah","masak sendiri","dapet uang dari hasil sendiri","nonton konser","nginep tanpa orang tua","patah hati","punya HP sendiri","ke mall tanpa orang tua","ikut organisasi","jadi panitia acara","ngomong di depan banyak orang","dapet ranking","nonton bioskop bareng temen","naik kereta","liburan tanpa keluarga","ditraktir gebetan","nembak atau ditembak","jadi MC","bikin konten","jualan","kerja part-time","nginep di hotel"]);
+  T("random",x=>`Siapa orang yang ${x}? Kenapa?`,["terakhir lo telepon","terakhir nge-chat lo","paling sering lo chat minggu ini","paling lo hindarin sekarang","pengen lo mintain maaf","pengen banget lo bilangin makasih","paling berpengaruh di hidup lo","bikin lo kesel minggu ini","bikin lo senyum hari ini","lagi lo kangenin sekarang","paling lo kagumi","paling ngertiin lo","hampir tiap hari lo cek medsosnya","pengen banget lo temenin","pernah lo bikin nangis","pernah bikin lo nangis","gayanya diam-diam lo tiru","paling sering nraktir lo","paling lo percaya di dunia ini","pengen lo ajak ngobrol semalaman"]);
+  T("random",x=>`Apa hal yang ${x}?`,["bikin lo insecure","bikin lo bangga sama diri sendiri","pengen banget lo coba tahun ini","paling lo sesalin tahun lalu","bikin lo susah tidur","pengen lo omongin ke orang tua tapi nggak berani","bikin lo ketawa paling kenceng minggu ini","bikin lo kesel hari ini","pengen banget lo beli sekarang","paling lo takutin soal masa depan","paling lo kangenin dari masa kecil","bikin lo betah di tongkrongan ini","pengen lo ubah dari sekolah atau kampus lo","lo pura-pura suka padahal nggak","lo pura-pura nggak suka padahal suka","jadi guilty pleasure lo","bikin lo langsung semangat","bikin lo langsung males","lo pelajari dari patah hati","bikin lo pengen dikenang orang","bikin lo beda dari orang lain","lo lakuin kalau lagi nggak ada yang liat","lo cari pertama kali tiap buka HP","paling bikin lo stres belakangan ini","lo janjiin ke diri sendiri tapi belum ditepatin","bikin lo nggak bisa nolak ajakan","pengen lo bilang ke orang di sebelah lo"]);
+  T("temen",x=>`Siapa di sini yang paling mungkin ${x}?`,["viral duluan","kerja di luar negeri","jadi sultan","ketinggalan pesawat","nyasar di kota sendiri","lupa ulang tahun pacarnya","nangis di nikahan temen","ketiduran di bioskop","kena tipu online","jadi artis","punya kucing paling banyak","buka usaha kuliner","jadi dosen","masuk berita","ikut reality show","balikan sama mantan","ngabisin gaji pertama dalam sehari","ngilang tanpa kabar","inget semua ulang tahun temen","jadi orang tua paling galak","jadi orang tua paling santai","bikin grup chat terus ninggalin sendiri","ngajak nongkrong tapi batal sendiri","nonton konser sendirian","nangis nonton drakor","jadi bos perusahaan","lupa password semua akun","ngerusak HP baru dalam seminggu","dapet beasiswa ke luar negeri","nulis buku","punya channel YouTube sejuta subscriber","nyasar di mall","jadi motivator","jomblo paling lama","ngerayain ultah paling heboh","bikin konten prank","ketahuan bohong malam ini","nyerah duluan main truth or dare","pindah ke luar kota duluan","jadi yang paling kaya di reuni nanti","tetep sama persis 10 tahun lagi","jadi ketua panitia reuni"]);
+  T("crush",x=>`Pernah nggak lo ${x} demi gebetan?`,["bangun pagi","belajar masak","pura-pura suka musik yang dia suka","ikut ekskul yang sama","nabung buat beliin kado","nunggu di parkiran lama","ganti gaya rambut","ngafalin jadwal dia","pura-pura butuh bantuan","ikut nonton bola padahal nggak ngerti","bohong soal hobi","rela kehujanan","begadang nemenin dia telponan","belajar main gitar","pura-pura kebetulan ketemu","minta nomor lewat temennya","nyiapin topik obrolan dari malam sebelumnya","rela nggak jajan seminggu","nonton drama yang dia suka","ikutan diet atau olahraga"]);
+  T("crush",x=>x[0].toUpperCase()+x.slice(1),["siapa orang pertama yang lo taksir?","umur berapa lo pertama kali naksir orang?","apa hal paling romantis yang pernah dilakuin orang buat lo?","apa hal paling romantis yang pernah lo lakuin buat orang?","pernah jatuh cinta pada pandangan pertama?","lebih sakit ditolak atau di-ghosting?","menurut lo pacaran pas sekolah penting nggak?","siapa di sini yang paling cocok jadi pasangan lo?","pernah naksir sahabat sendiri?","pernah suka sama orang yang udah punya pacar?","apa kode paling halus yang pernah lo kasih ke gebetan?","pernah nangis gara-gara cinta?","lo lebih suka orang yang bikin ketawa atau yang bikin tenang?","apa hal yang nggak bisa lo toleransi dari pasangan?","pernah nyesel pacaran sama seseorang?","siapa orang yang paling bikin lo deg-degan tahun ini?","pernah nyimpen screenshot chat gebetan?","gimana cara lo tau kalau lo lagi suka sama seseorang?","pernah ditanyain lagi deket sama siapa dan lo ngeles?","apa pickup line paling garing yang pernah lo pakai atau denger?"]);
+  T("sekolah",x=>`Pernah nggak lo ${x} di sekolah atau kampus?`,["makan diam-diam pas pelajaran","ketahuan main HP pas jam pelajaran","nyanyi di depan kelas","jadi korban jahil satu kelas","jahilin guru","ngumpet di perpustakaan buat tidur","ikut tawuran kata-kata di grup angkatan","nangis pas perpisahan","lupa bawa buku paket seminggu","lupa pakai atribut pas upacara","dipanggil maju ngerjain soal dan diem aja","salah masuk kelas","ketinggalan bus sekolah","jualan buat cari uang tambahan","jadi bahan omongan satu angkatan","nemu surat cinta di laci","ngerjain PR orang lain dibayar jajan","dijemur di lapangan","ngumpetin tas temen","ngebela temen di depan guru","jadi panitia pensi","bikin konten bareng temen sekelas","ngantuk parah pas jam pertama","pura-pura sakit di UKS","ketahuan nyontek pakai HP"]);
+  T("sekolah",x=>x[0].toUpperCase()+x.slice(1),["siapa temen sekelas yang paling lo inget sampai sekarang?","guru mana yang paling berjasa buat lo?","momen perpisahan mana yang paling bikin lo sedih?","kalau lo guru, pelajaran apa yang mau lo ajarin?","jurusan atau cita-cita apa yang diam-diam lo pengen?","tugas paling ribet yang pernah lo kerjain apa?","kelas paling seru yang pernah lo tempatin kenapa seru?","jajanan kantin mana yang paling lo kangenin?","kejadian paling heboh yang pernah terjadi di sekolah lo apa?","siapa yang dulu paling sering lo contekin?"]);
+  T("rumah",x=>x[0].toUpperCase()+x.slice(1),["siapa di keluarga yang paling lucu?","masakan rumah apa yang paling lo kangenin kalau lagi jauh?","tradisi keluarga apa yang paling lo suka?","pernah nggak lo ngerasa dibedain sama saudara?","hal paling sweet yang pernah dilakuin orang tua lo apa?","kapan terakhir kali lo meluk orang tua?","siapa sepupu yang paling deket sama lo?","pernah berantem sama orang tua gara-gara pilihan sekolah atau jurusan?","hal apa yang paling bikin orang tua lo bangga sama lo?","apa hal yang pengen lo balas buat orang tua lo nanti?","pernah ketahuan boros sama orang tua?","hadiah apa yang paling berkesan dari keluarga?","liburan keluarga paling seru yang pernah lo alamin ke mana?","kebiasaan orang tua apa yang diam-diam lo tiru?","kebiasaan orang tua apa yang nggak mau lo tiru?","siapa di keluarga yang paling susah dibohongin?","kalimat nasihat keluarga yang paling nempel di kepala lo apa?","pernah ngerasa kesepian padahal lagi di rumah?","hewan peliharaan pertama lo apa dan namanya siapa?","pernah dimarahin gara-gara pulang kotor abis main?","siapa di rumah yang paling sering lo mintain duit?","kalau orang tua lo baca chat lo, chat mana yang bikin lo panik?","hal apa yang paling sering bikin lo berantem sama saudara?","pernah pura-pura sakit biar dimanja orang tua?","acara keluarga apa yang paling lo males datengin?","siapa saudara yang paling sering dibanggain di keluarga besar?","pernah nyembunyiin barang belanjaan dari orang tua?","kamar lo sekarang lebih mirip kamar atau gudang?","apa aturan rumah paling aneh yang pernah lo jalanin?","pernah ngerasa jadi anak yang paling disayang?"]);
+  T("hp",x=>x[0].toUpperCase()+x.slice(1),["apa wallpaper HP lo sekarang dan kenapa?","siapa yang paling sering muncul di galeri lo?","berapa jumlah foto di galeri lo sekarang?","kapan terakhir kali lo hapus chat biar nggak ketahuan?","akun siapa yang lo cek tiap hari walau nggak follow?","apa notifikasi yang paling bikin lo seneng?","pernah ketahuan screenshot story orang?","apa postingan lo yang paling banyak likenya?","pernah ngerasa FOMO gara-gara liat story temen?","siapa yang paling sering nge-tag lo di postingan aneh?","berapa grup chat yang lo ikutin sekarang?","pernah nulis caption panjang terus dihapus lagi?","apa isi notes HP lo yang paling random?","pernah sengaja nggak nge-like postingan temen?","apa lagu yang terakhir lo puter?","siapa yang terakhir lo kirimin meme?","pernah nge-stalk akun mantannya gebetan?","playlist apa yang paling sering lo puter?","aplikasi yang paling lo sesalin download apa?","pernah pakai filter sampai orang nggak ngenalin lo?","kapan terakhir kali lo lupa naruh HP padahal lagi dipegang?","pernah upload foto terus langsung arsipin?","akun medsos lo yang paling lama berapa tahun umurnya?","pernah dapet DM aneh? Dari siapa?","apa yang bakal lo lakuin kalau medsos lo ke-hack?","pernah ngomel di story terus dihapus lima menit kemudian?","siapa yang paling cepet bales chat lo?","siapa yang paling lama bales chat lo?","apa sticker WhatsApp paling absurd yang lo punya?","pernah ninggalin chat di read berhari-hari? Punya siapa?","konten apa yang pernah bikin lo nangis di medsos?","pernah ketahuan ngeliatin HP orang di sebelah lo?","apa kata kunci yang paling sering lo cari di TikTok?","pernah beli barang cuma gara-gara liat review di medsos?","akun mana yang paling sering bikin lo overthinking?"]);
+  T("kalau",x=>x[0].toUpperCase()+x.slice(1),["kalau bisa ganti nama, lo mau dipanggil apa?","kalau lo bisa tinggal di dalam film, film apa?","kalau lo jadi guru sehari, lo ngajar apa?","kalau lo cuma boleh bawa tiga barang ke pulau terpencil, apa aja?","kalau lo punya mesin waktu, mau ke tahun berapa?","kalau lo jadi tokoh game, skill utama lo apa?","kalau lo jadi makanan, lo makanan apa?","kalau lo bisa nukar satu sifat sama orang di sini, sifat apa?","kalau lo harus pindah ke luar negeri besok, negara mana?","kalau lo bisa ngobrol sama hewan, hewan apa yang mau lo ajak ngobrol?","kalau lo bikin lagu tentang tongkrongan ini, judulnya apa?","kalau lo punya pulau pribadi, dinamain apa?","kalau lo bangun jadi orang di sebelah lo, hal pertama yang lo lakuin apa?","kalau lo dapet satu permintaan dari jin, minta apa?","kalau lo bisa ngulang satu ujian, ujian yang mana?","kalau lo bisa ngilangin satu mata pelajaran, pelajaran apa?","kalau lo bisa jadi anggota grup musik mana pun, pilih grup apa?","kalau hidup lo ada soundtrack-nya, lagu apa?","kalau lo jadi superhero, kelemahan lo apa?","kalau lo harus ngerayain ultah di tempat aneh, di mana?","kalau lo bisa nggak tidur seminggu tanpa capek, mau ngapain?","kalau lo bisa baca chat satu orang, chat siapa?","kalau lo jadi pemilik warung, jualan apa?","kalau lo bisa ngasih satu hadiah ke semua orang di sini, hadiah apa?","kalau lo bisa jadi orang dewasa sekarang juga, mau atau nggak?","kalau lo harus hidup tanpa satu aplikasi, aplikasi apa?","kalau lo dikasih satu hari libur ekstra tiap minggu, dipakai buat apa?","kalau lo bisa ngubah satu hal dari tongkrongan ini, apa?","kalau lo bisa ngasih julukan buat diri sendiri, apa?","kalau lo jadi hantu penunggu sekolah, lo nongkrong di ruang mana?"]);
+  const school=/sekolah|kelas|guru|dosen|kampus|ujian|\bPR\b|ekskul|\bSD\b|SMP|SMA\b|kantin|\bBK\b|upacara|MPLS|ospek|study tour|remedial|pelajaran|rapor|\bnilai\b|jurusan|contek|absen|bolos|kuliah|belajar (sendiri|kelompok)|pura-pura belajar|UKS|pensi|perpustakaan|tugas|ranking|lulus|jam malam|uang jajan|jajan seminggu/i;
+  const seen=new Set(); let uniq=out.filter(q=>q.c!=='sekolah'&&!school.test(q.t)&&(seen.has(q.t)?false:(seen.add(q.t),true)));
+  const trim=new Set(['random','temen','aib']);
+  for(let i=uniq.length-1;uniq.length>1000&&i>=0;i--){ if(trim.has(uniq[i].c)) uniq.splice(i,1); }
+  return uniq.slice(0,1000).map((q,i)=>({id:i+1,c:q.c,t:q.t}));
+}
+const QS = buildQuestions();
+// DATA END
+(function(){
+const $=id=>document.getElementById(id);
+const store={get(k,d){try{const v=localStorage.getItem('tod2:'+k);return v?JSON.parse(v):d}catch(e){return d}},
+             set(k,v){try{localStorage.setItem('tod2:'+k,JSON.stringify(v))}catch(e){}}};
+const ALL=Object.keys(CATS), LOVE=['crush','mantan'], LIGHT=['aib','temen','random','kalau','hp'];
+let seen=new Set(store.get('seen',[]));
+let saved=new Set(store.get('saved',[]));
+let active=new Set(store.get('cats',ALL).filter(c=>ALL.includes(c)));
+if(!active.size) active=new Set(ALL);
+let players=store.get('players',[]);
+let tally=store.get('tally',{});
+let soundOn=store.get('sound',true);
+let rot=0, busy=false, lastIdx=-1, current=null, currentWho=null, filterSaved=false;
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+let ac=null;
+function beep(f,t,dur,vol){try{const o=ac.createOscillator(),g=ac.createGain();o.type='triangle';o.frequency.value=f;
+  g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g).connect(ac.destination);o.start(t);o.stop(t+dur+.02)}catch(e){}}
+function spinSound(sec){
+  if(!soundOn) return;
+  try{ac=ac||new (window.AudioContext||window.webkitAudioContext)();if(ac.state==='suspended')ac.resume();
+    const t0=ac.currentTime;let t=0,gap=.055;
+    while(t<sec-.1){beep(560,t0+t,.03,.05);t+=gap;gap*=1.085}
+    beep(880,t0+sec,.18,.09);beep(1320,t0+sec+.06,.2,.06);
+  }catch(e){}
+}
+function pool(){return QS.filter(q=>active.has(q.c))}
+function updateCount(){
+  const p=pool(), r=p.filter(q=>!seen.has(q.id)).length;
+  $('count').textContent=r+' dari '+p.length+' pertanyaan belum keluar';
+}
+function drawSeats(){
+  document.querySelectorAll('.seat').forEach(s=>s.remove());
+  if(players.length<2){$('hint').textContent='Tap botolnya. Tutup botol nunjuk siapa yang jawab.';return}
+  $('hint').textContent='Botol bakal milih satu dari '+players.length+' pemain.';
+  players.forEach((name,i)=>{
+    const a=(i/players.length)*2*Math.PI, r=56;
+    const el=document.createElement('span');el.className='seat';el.dataset.i=i;
+    const n=tally[name]||0;
+    el.textContent=name+(n?' '+n:'');
+    el.style.left=(50+r*Math.sin(a))+'%';el.style.top=(50-r*Math.cos(a))+'%';
+    $('arena').appendChild(el);
+  });
+}
+function paintStar(){ $('star').textContent=current&&saved.has(current.id)?'★':'☆'; }
+function show(q,who){
+  current=q;currentWho=who;
+  const card=$('card');card.classList.remove('empty','fresh');void card.offsetWidth;card.classList.add('fresh');
+  $('chip').textContent=CATS[q.c].e+' '+CATS[q.c].n;
+  $('num').textContent='#'+q.id;
+  $('star').hidden=false;paintStar();
+  $('q').textContent=q.t;
+  $('skip').disabled=false;
+  if(who){$('who').hidden=false;$('who').textContent='Giliran '+who+':'}else{$('who').hidden=true}
+}
+function pick(){
+  const left=pool().filter(q=>!seen.has(q.id));
+  if(!left.length) return null;
+  const q=left[Math.floor(Math.random()*left.length)];
+  seen.add(q.id);store.set('seen',[...seen]);
+  return q;
+}
+function outOfQuestions(){
+  const card=$('card');card.classList.add('empty');card.classList.remove('fresh');
+  $('chip').textContent='🎉 Habis';$('num').textContent='';$('star').hidden=true;$('who').hidden=true;$('skip').disabled=true;
+  $('q').textContent='Semua pertanyaan di kategori ini udah keluar. Buka ⚙️ buat kocok ulang atau nyalain kategori lain.';
+  current=null;
+}
+function spin(){
+  if(busy) return;
+  const q=pick();
+  if(!q){outOfQuestions();return}
+  let target=Math.random()*360, who=null, idx=-1;
+  if(players.length>=2){
+    do{idx=Math.floor(Math.random()*players.length)}while(players.length>2&&idx===lastIdx);
+    lastIdx=idx;who=players[idx];
+    target=idx*360/players.length+(Math.random()*14-7);
+  }
+  const cur=((rot%360)+360)%360;
+  const dur=reduce?0:2.6;
+  rot+=360*(reduce?0:5)+((target-cur+360)%360);
+  document.querySelectorAll('.seat').forEach(s=>s.classList.remove('hit'));
+  busy=true;$('spin').disabled=true;$('skip').disabled=true;$('spin').textContent='Muter…';
+  $('arena').classList.add('spinning');
+  $('bottle').style.transform='rotate('+rot+'deg)';
+  spinSound(dur);
+  setTimeout(()=>{
+    busy=false;$('spin').disabled=false;$('spin').textContent='Putar lagi';
+    if(idx>=0){
+      const s=document.querySelector('.seat[data-i="'+idx+'"]');s&&s.classList.add('hit');
+      tally[who]=(tally[who]||0)+1;store.set('tally',tally);
+      if(s) s.textContent=who+' '+tally[who];
+    }
+    show(q,who);updateCount();
+  }, reduce?100:dur*1000+40);
+}
+function skip(){
+  if(busy) return;
+  const q=pick();
+  if(!q){outOfQuestions();return}
+  show(q,currentWho);updateCount();
+}
+function renderCats(){
+  const box=$('cats');box.innerHTML='';
+  Object.entries(CATS).forEach(([k,v])=>{
+    const n=QS.filter(q=>q.c===k).length;
+    const b=document.createElement('button');b.className='cat';b.type='button';
+    b.setAttribute('aria-pressed',active.has(k));
+    b.innerHTML=v.e+' '+v.n+' <span class="n">'+n+'</span>';
+    b.onclick=()=>{
+      if(active.has(k)){if(active.size===1)return;active.delete(k)}else active.add(k);
+      store.set('cats',[...active]);b.setAttribute('aria-pressed',active.has(k));updateCount();
+    };
+    box.appendChild(b);
+  });
+}
+function renderTally(){
+  const box=$('tally');
+  const rows=players.filter(p=>tally[p]).map(p=>'<li>'+p.replace(/</g,'&lt;')+'<span>'+tally[p]+'x</span></li>');
+  box.innerHTML=rows.length?'<label>Sudah kena botol</label><ul class="tally">'+rows.join('')+'</ul>':'';
+}
+function setPreset(keys){
+  active=new Set(keys);store.set('cats',keys);renderCats();updateCount();
+}
+function renderList(){
+  const term=$('search').value.trim().toLowerCase();
+  let items=QS.filter(q=>(!term||q.t.toLowerCase().includes(term))&&(!filterSaved||saved.has(q.id)));
+  $('listInfo').textContent=filterSaved
+    ? (items.length?items.length+' pertanyaan tersimpan.':'Belum ada yang disimpan. Tekan ☆ di kartu pertanyaan.')
+    : items.length+' pertanyaan'+(term?' cocok':'')+'. Yang redup udah pernah keluar.';
+  $('list').innerHTML=items.slice(0,400).map(q=>'<li class="'+(seen.has(q.id)?'seen':'')+'"><span>#'+q.id+'</span>'+CATS[q.c].e+' '+q.t.replace(/</g,'&lt;')+(saved.has(q.id)?' ★':'')+'</li>').join('')
+    +(items.length>400?'<li><span></span>…cari pakai kata kunci buat lihat sisanya</li>':'');
+}
+$('spin').onclick=spin;$('bottleBtn').onclick=spin;$('skip').onclick=skip;
+document.addEventListener('keydown',e=>{
+  if(document.querySelector('dialog[open]')) return;
+  if(e.code==='Space'||e.code==='Enter'){e.preventDefault();spin()}
+  if(e.key==='n'||e.key==='N') skip();
+});
+$('star').onclick=()=>{
+  if(!current) return;
+  saved.has(current.id)?saved.delete(current.id):saved.add(current.id);
+  store.set('saved',[...saved]);paintStar();
+};
+$('openHelp').onclick=()=>$('helpDlg').showModal();
+$('openSet').onclick=()=>{$('players').value=players.join('\n');renderCats();renderTally();$('setDlg').showModal()};
+$('openList').onclick=()=>{$('search').value='';renderList();$('listDlg').showModal()};
+$('search').oninput=renderList;
+$('fAll').onclick=()=>{filterSaved=false;$('fAll').setAttribute('aria-pressed',true);$('fSaved').setAttribute('aria-pressed',false);renderList()};
+$('fSaved').onclick=()=>{filterSaved=true;$('fAll').setAttribute('aria-pressed',false);$('fSaved').setAttribute('aria-pressed',true);renderList()};
+$('presets').onclick=e=>{
+  const b=e.target.closest('[data-preset]');if(!b)return;
+  const p=b.dataset.preset;
+  setPreset(p==='all'?ALL:p==='love'?LOVE:p==='safe'?ALL.filter(c=>!LOVE.includes(c)):LIGHT);
+};
+$('sound').onclick=()=>{soundOn=!soundOn;store.set('sound',soundOn);$('sound').setAttribute('aria-pressed',soundOn);$('sound').textContent=soundOn?'Nyala':'Mati'};
+$('share').onclick=async()=>{
+  const data={title:'Truth Doang',text:'1000 pertanyaan truth buat tongkrongan',url:location.href};
+  try{ if(navigator.share){await navigator.share(data)} else {await navigator.clipboard.writeText(location.href);$('share').textContent='Link disalin ✓'} }
+  catch(e){ $('share').textContent='Salin link dari address bar' }
+};
+$('reset').onclick=()=>{
+  seen=new Set();tally={};lastIdx=-1;store.set('seen',[]);store.set('tally',{});
+  updateCount();drawSeats();renderTally();$('reset').textContent='Udah dikocok ✓';
+};
+$('setDlg').addEventListener('close',()=>{
+  players=$('players').value.split('\n').map(s=>s.trim()).filter(Boolean).slice(0,12);
+  store.set('players',players);lastIdx=-1;drawSeats();updateCount();$('reset').textContent='Kocok ulang';$('share').textContent='Bagikan link';
+});
+document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>b.closest('dialog').close());
+document.querySelectorAll('dialog').forEach(d=>d.addEventListener('click',e=>{if(e.target===d)d.close()}));
+$('sound').textContent=soundOn?'Nyala':'Mati';$('sound').setAttribute('aria-pressed',soundOn);
+drawSeats();updateCount();
+if(!store.get('hi',false)){store.set('hi',true);setTimeout(()=>$('helpDlg').showModal(),400)}
+})();
+</script>
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
+}
+</script>
+</body></html>
