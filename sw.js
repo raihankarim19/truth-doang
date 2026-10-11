@@ -1,5 +1,5 @@
 // Truth Doang — service worker. Naikkan VERSION tiap kali isi aplikasi diubah.
-const VERSION = 'truth-doang-v1';
+const VERSION = 'truth-doang-v2';
 const ASSETS = [
   './',
   './index.html',
